@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>메이플 슬롯머신</title>
+
+<style>
+body{
+    background:#1b1b1b;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+}
+
+.slot-container{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:50px;
+}
+
+.slot{
+    width:140px;
+    height:140px;
+    background:white;
+    border-radius:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.slot img{
+    max-width:120px;
+    max-height:120px;
+}
+
+button{
+    margin-top:30px;
+    padding:15px 30px;
+    font-size:20px;
+}
+
+#result{
+    margin-top:30px;
+    font-size:32px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎰 메이플 슬롯머신 🎰</h1>
+
+<div class="slot-container">
+    <div class="slot"><img id="slot1"></div>
+    <div class="slot"><img id="slot2"></div>
+    <div class="slot"><img id="slot3"></div>
+</div>
+
+<button onclick="spin()" id="spinBtn">돌리기</button>
+
+<div id="result"></div>
+
+<script>
+
+const symbols = [
+    "images/mushroom.png",
+    "images/shark.png",
+    "images/eel.png",
+    "images/totem.png"
+];
+
+function randomSymbol(){
+    return symbols[Math.floor(Math.random()*symbols.length)];
+}
+
+function spin(){
+
+    document.getElementById("spinBtn").disabled = true;
+    document.getElementById("result").textContent = "";
+
+    const slot1 = document.getElementById("slot1");
+    const slot2 = document.getElementById("slot2");
+    const slot3 = document.getElementById("slot3");
+
+    const i1 = setInterval(()=>{
+        slot1.src = randomSymbol();
+    },80);
+
+    const i2 = setInterval(()=>{
+        slot2.src = randomSymbol();
+    },80);
+
+    const i3 = setInterval(()=>{
+        slot3.src = randomSymbol();
+    },80);
+
+    setTimeout(()=>{
+        clearInterval(i1);
+    },1500);
+
+    setTimeout(()=>{
+        clearInterval(i2);
+    },2200);
+
+    setTimeout(()=>{
+        clearInterval(i3);
+
+        if(
+            slot1.src === slot2.src &&
+            slot2.src === slot3.src
+        ){
+            document.getElementById("result").innerHTML =
+            "🎉 JACKPOT 🎉";
+        }else{
+            document.getElementById("result").innerHTML =
+            "😢 꽝";
+        }
+
+        document.getElementById("spinBtn").disabled = false;
+
+    },2900);
+}
+
+window.onload = () => {
+    document.getElementById("slot1").src = symbols[0];
+    document.getElementById("slot2").src = symbols[1];
+    document.getElementById("slot3").src = symbols[2];
+};
+
+</script>
+
+</body>
+</html>
